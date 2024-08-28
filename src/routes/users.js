@@ -5,6 +5,9 @@ import bcrypt from "bcrypt";
 const router = express.Router();
 import { UserModel } from "../models/Users.js";
 
+
+//Password Hashing During Registration
+
 router.post("/register", async (req, res) => {
   const { username, password } = req.body;
   const user = await UserModel.findOne({ username });
@@ -17,6 +20,8 @@ router.post("/register", async (req, res) => {
   res.json({ message: "User registered successfully" });
 });
 
+
+// User Login with JWT Authentication
 router.post("/login", async (req, res) => {
   const { username, password } = req.body;
 
