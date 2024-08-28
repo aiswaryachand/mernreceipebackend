@@ -2,7 +2,6 @@ import express, { response } from "express";
 import mongoose from "mongoose";
 import { RecipeModel } from "../models/Recipes.js";
 import { UserModel } from "../models/Users.js";
-
 const router = express.Router();
 
 // Retrieves and returns all recipes stored in the RecipeModel collection.
@@ -16,21 +15,34 @@ router.get("/", async (req, res) => {
   }
 });
 
+
 // Create a new recipe
 router.post("/:userID", async (req, res) => {
   const { userID } = req.params;
-  const recipe = new RecipeModel({
-    ...req.body,
-    userOwner: userID,
-  });
+ // Validate userID
+ if (!userID) {
+  return res.status(400).json({ message: "User ID is required" });
+}
 
-  try {
-    const response = await recipe.save();
-    res.status(201).json(response);  // 201 for created
-  } catch (err) {
-      res.status(500).json({ message: "Error creating recipe", error: err });
-  }
+// Validate request body (example: ensure name is present)
+if (!req.body.name) {
+  return res.status(400).json({ message: "Recipe name is required" });
+}
+
+const recipe = new RecipeModel({
+  ...req.body,
+  userOwner: userID,
 });
+
+try {
+  const response = await recipe.save();
+  res.status(201).json(response);  // 201 for created
+} catch (err) {
+  console.error("Error creating recipe:", err);  // Log error for debugging
+  res.status(500).json({ message: "Error creating recipe", error: err.message });
+}
+});
+
 
  
 // Save a Recipe ( Adds a recipe to a user's list of saved recipes and saves it to the database)

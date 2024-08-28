@@ -17,6 +17,7 @@ app.use("/recipes", recipesRouter);
 mongoose.connect(
  
     "mongodb+srv://aiswaryachand52:dbuser123@recipes.4ypxrvx.mongodb.net/recipes?retryWrites=true&w=majority&appName=recipes",
+    
     console.log("MongoDB connected"),
     {
       useNewUrlParser: true,
