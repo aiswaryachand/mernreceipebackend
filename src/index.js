@@ -1,8 +1,8 @@
 import express from "express";
 import cors from "cors";
 import mongoose from "mongoose";
-import { userRouter } from "./src/routes/users.js";
-import { recipesRouter } from "./src/routes/recipes.js";
+import { userRouter } from "./routes/users.js";
+import { recipesRouter } from "./routes/recipes.js";
 
 const app = express();
 
@@ -11,6 +11,7 @@ app.use(cors());
 
 app.use("/auth", userRouter);
 app.use("/recipes", recipesRouter);
+console.log("Current working directory:", process.cwd());
 
 
 
